@@ -1,3 +1,7 @@
+import sys
+sys.path.append('/home/kuba/Desktop/bootcamp_2023-12-09/project-task-manager/src/utils')
+from file_operations import write_to_json, read_from_json
+sys.path.append('/home/kuba/Desktop/bootcamp_2023-12-09/project-task-manager/src/classes')
 import datetime as dt
 from task import Task
 
@@ -42,4 +46,9 @@ class Space:
         return task_list
 
     def save_to_database(self):
-
+        space_dict = {
+            "name": self.name,
+            "created_at": self.created_at.strftime("%d/%m/%Y %H:%M:%S"),
+            "tasks": self._convert_tasks_to_json(self.tasks)
+        }
+        write_to_json(space_dict, f'../data/spaces/{self.name}.json')
