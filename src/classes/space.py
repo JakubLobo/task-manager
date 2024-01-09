@@ -14,7 +14,7 @@ class Space:
                  tasks_json: list[dict],
                  already_in_db: bool):
         self.name = space_name
-        self.created_at: dt = created_at
+        self.created_at: dt = dt.datetime.strptime(created_at, "%d/%m/%Y %H:%M:%S")
         self.priority: int = 0
         self.tasks: list[Task] = self._create_tasks(tasks_json)
         self.already_in_db: bool = already_in_db
@@ -28,7 +28,7 @@ class Space:
         return tasks
 
     def __str__(self):
-        return f"""Space {self.name} ({len(self.tasks)}"""
+        return f"""Space {self.name} ({len(self.tasks)} tasks)"""
 
     def __repr__(self):
         return f"""Space(name={self.name}, n_tasks={len(self.tasks)}"""

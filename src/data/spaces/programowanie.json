@@ -1,0 +1,26 @@
+{
+    "name": "programowanie",
+    "created_at": "08/01/2024 00:00:00",
+    "tasks": [
+        {
+            "description": "Learn Python",
+            "assignee": "Kuba",
+            "due_date": "08/01/2024",
+            "priority": 2,
+            "time_logged": "0:00:32",
+            "is_complete": false,
+            "tags": [],
+            "comments": []
+        },
+        {
+            "description": "Zad 2",
+            "assignee": "Jadzia",
+            "due_date": "08/01/2024",
+            "priority": 2,
+            "time_logged": "0:00:32",
+            "is_complete": false,
+            "tags": [],
+            "comments": []
+        }
+    ]
+}
