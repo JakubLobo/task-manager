@@ -10,8 +10,6 @@ sys.path.append('/home/kuba/Desktop/bootcamp_2023-12-09/project-task-manager/src
 class TaskManager:
     def __init__(self, app_name):
         self.name: str = app_name
-        # self.spaces: dict[str, Space] = self._load_spaces()
-        # To będzie dokończone w późniejszej funkcji
         self.spaces: dict[str, Space] = self._load_spaces()
 
     def __repr__(self):
@@ -34,10 +32,13 @@ class TaskManager:
         return spaces
 
     def add_space(self, space_name):
-        created_at = dt.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-        tasks = []
-        new_space = Space(space_name, created_at, tasks, self._validate_space(space_name))
-        self.spaces[space_name] = new_space
+        if self._validate_space(space_name):
+            created_at = dt.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+            tasks = []
+            new_space = Space(space_name, created_at, tasks, self._validate_space(space_name))
+            self.spaces[space_name] = new_space
+        else:
+            print("Self space already exists.")
 
     def _validate_space(self, space_name):
         if space_name in self.spaces:
