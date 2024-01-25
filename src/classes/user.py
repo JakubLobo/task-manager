@@ -16,8 +16,8 @@ class User:
         self.name = name
         self._save_user_to_database()
 
-    def assign_task(self, Task):
-        Task['assignee'] = self.name
+    def assign_task(self, task):
+        task['assignee'] = self.name
 
     def _save_user_to_database(self):
         data = {

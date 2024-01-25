@@ -52,47 +52,27 @@ class Space:
             "created_at": self.created_at.strftime("%d/%m/%Y %H:%M:%S"),
             "tasks": self._convert_tasks_to_json(self.tasks)
         }
-        write_to_json(space_dict, f'../data/spaces/{self.name}.json')
+        write_to_json(space_dict, f"../data/spaces/{self.name}.json")
 
     def add_task(self, task_dict):
         new_task = Task(task_dict)
         self.tasks.append(new_task)
         self.save_to_database()
 
-    def add_task_from_input(self):
-        new_task = {}
-        description = input("Give task description: ")
-        assignee = input("Who will be assignee: ")
-        due_date = input("Give due date (format 24/12/2022): ")
-        priority = int(input("Set priority (1-3):"))
-        time_logged = input("Provide time logged (format 09:25:59): ")
-        is_complete = self._make_bool(input("Is the task complete (yes/no): "))
-        tags = self._separate_tags(input("Provide tags for it: (Finish the with . or !):"))
-        comments = self._comment_maker()
-
-
     @staticmethod
-    def _make_bool(argument):
-        if argument == "yes":
-            return True
-        else:
-            return False
-
-    @staticmethod
-    def _separate_tags(tags):
-        tags = [tag for tag in re.split(r'[.!]', tags) if tag]
-        return tags
-
-    @staticmethod
-    def _comment_maker():
-        have_a_comment = True
-        comments = []
-        while have_a_comment:
-            validation = input("Do you have a comment (yes/no): ")
-            if validation == 'yes':
-                author = input("Who's the author: ")
-                text = input("What's the text of the comment: ")
-                comments.append({'author': author, 'text': text})
-            if validation == 'no':
-                have_a_comment = False
-        return comments
+    def add_task_from_input():
+        new_task = {'description': input("Give task description: "),
+                    'assignee': input("Who will be assignee: "),
+                    'due_date': input("Give due date (format 24/12/2022): "),
+                    'priority': int(input("Set priority (1-3):")),
+                    'time_logged': input("Provide time logged (format 09:25:59): "),
+                    'is_complete': bool(input("Is the task complete (True/False): ")),
+                    'tags': (input("Provide tags for it: ('\"tag1\", \"tag2\", \"tag3\"...'):")).split(',')}
+        comments = input("Provide comments: (\"author1\": \"comment1\", \"author2\": \"comment2\"...")
+        comments = comments.split(',')
+        comments_dict = {}
+        for comment in comments:
+            comment_split = comment.split(':')
+            comments_dict[comment_split[0]] = comment_split[1]
+        new_task['comments'] = comments_dict
+        return Task(new_task)

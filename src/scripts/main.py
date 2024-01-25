@@ -76,7 +76,6 @@ def main():
                     else:
                         print("Input has to be a number from a list provided.")
                         continue
-
         elif start == "quit":
             quit_program()
             break
