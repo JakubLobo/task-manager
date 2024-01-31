@@ -59,8 +59,8 @@ class Space:
         self.tasks.append(new_task)
         self.save_to_database()
 
-    @staticmethod
-    def add_task_from_input():
+
+    def add_task_from_input(self):
         new_task = {'description': input("Give task description: "),
                     'assignee': input("Who will be assignee: "),
                     'due_date': input("Give due date (format 24/12/2022): "),
@@ -68,11 +68,16 @@ class Space:
                     'time_logged': input("Provide time logged (format 09:25:59): "),
                     'is_complete': bool(input("Is the task complete (True/False): ")),
                     'tags': (input("Provide tags for it: ('\"tag1\", \"tag2\", \"tag3\"...'):")).split(',')}
-        comments = input("Provide comments: (\"author1\": \"comment1\", \"author2\": \"comment2\"...")
+        comments = input("Provide comments: (\"author1\": \"comment1\", \"author2\": \"comment2\"...)")
         comments = comments.split(',')
         comments_dict = {}
-        for comment in comments:
-            comment_split = comment.split(':')
-            comments_dict[comment_split[0]] = comment_split[1]
+        try:
+            for comment in comments:
+                comment_split = comment.split(':')
+                comments_dict[comment_split[0]] = comment_split[1]
+        except IndexError:
+            pass
         new_task['comments'] = comments_dict
-        return Task(new_task)
+        new_task = Task(new_task)
+        self.tasks.append(new_task)
+        self.save_to_database()

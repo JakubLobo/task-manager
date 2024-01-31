@@ -37,8 +37,10 @@ class TaskManager:
             tasks = []
             new_space = Space(space_name, created_at, tasks, self._validate_space(space_name))
             self.spaces[space_name] = new_space
+            return new_space
         else:
-            print("Self space already exists.")
+            print(f"Space \"{space_name}\" already exists. Please choose another name.")
+
 
     def _validate_space(self, space_name):
         if space_name in self.spaces:

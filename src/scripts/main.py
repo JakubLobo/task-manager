@@ -30,8 +30,10 @@ def main():
         action = input("""
 1 - Show spaces and their tasks
 2 - Assign me to do the task
+3 - Add space
+4 - Add task
 
-5 - Quit program
+7 - Quit program
     
 What would you like to do now (choose a number): """)
         print()
@@ -59,7 +61,7 @@ What would you like to do now (choose a number): """)
                 tasks_to_check = spaces[assigning_to_space].tasks
                 for i in range(len(tasks_to_check)):
                     if tasks_to_check[i].description == assigning_to_task:
-                        tasks_to_check[i].assignee = user.name  # TODO: Tu trzeba będzie wrzucić obecnego użytkownika aplikacji
+                        tasks_to_check[i].assignee = user.name
                         print(f"Assigned {user.name} to task {tasks_to_check[i].description}")
                         spaces[assigning_to_space].save_to_database()
                         found_task = True
@@ -68,7 +70,36 @@ What would you like to do now (choose a number): """)
             else:
                 print("There's no such space. Please insert a valid one.")
 
-        elif action == 5:
+        elif action == 3:
+            spaces = task_manager._load_spaces()
+            spaces_names = spaces.keys()
+            new_space_name = input("Please insert new space name: ")
+            new_space = task_manager.add_space(new_space_name)
+            try:
+                new_space.save_to_database()
+            except AttributeError:
+                pass
+
+        elif action == 4:
+            spaces = task_manager._load_spaces()
+            spaces_names = list(spaces.keys())
+            for i in range(len(spaces_names)):
+                print(f"{i + 1} - {spaces_names[i]}")
+            while True:
+                space_selection = input("Please choose a number of a space that you'd like to add task to: ")
+                try:
+                    space_selection = int(space_selection)
+                except ValueError:
+                    print("Input must be a number from the list provided.")
+                    continue
+                if space_selection - 1 < len(spaces_names):
+                    space_selected = spaces_names[space_selection - 1]
+                    spaces[space_selected].add_task_from_input()
+                    break
+                else:
+                    print("Input must be a number from the list provided.")
+
+        elif action == 7:
             quit_program()
             break
 
@@ -127,7 +158,6 @@ def starting_program():
 
         elif start == "quit":
             quit_program()
-            starting = False
             continue_program = False
             break
         else:
